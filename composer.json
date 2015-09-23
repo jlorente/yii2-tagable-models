@@ -1,0 +1,19 @@
+{
+    "name": "jlorente/yii2-tagable-models",
+    "description": "A Yii2 extension that provides the Yii framework with the functionality of creating and assigning tags to your models.",
+    "keywords": ["yii2", "tag", "tags", "model", "models", "tagable"],
+    "homepage": "https://github.com/jlorente/yii2-tagable-models",
+    "type": "yii2-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jose Lorente Martin",
+            "email": "jose.lorente.martin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "jlorente\\tagable\\": "src/"
+        }
+    }
+}
