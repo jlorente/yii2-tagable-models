@@ -11,6 +11,10 @@
             "email": "jose.lorente.martin@gmail.com"
         }
     ],
+    "require": {
+        "jlorente/yii2-validators": "dev-master",
+        "kartik-v/yii2-widget-select2": "*"
+    },
     "autoload": {
         "psr-4": {
             "jlorente\\tagable\\": "src/"
