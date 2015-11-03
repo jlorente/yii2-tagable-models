@@ -28,7 +28,7 @@ trait TagableFormTrait {
      *
      * @var int[] 
      */
-    public $tagIds;
+    protected $tagIds;
 
     /**
      * @inheritdoc
@@ -79,6 +79,20 @@ trait TagableFormTrait {
     public static function populateRecord($record, $row) {
         parent::populateRecord($record, $row);
         $record->tagIds = ArrayHelper::getColumn($record->tags, 'id');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTagIds() {
+        return $this->tagIds;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setTagIds(array $ids) {
+        $this->tagIds = $ids;
     }
 
 }

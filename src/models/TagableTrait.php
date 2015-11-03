@@ -22,23 +22,23 @@ trait TagableTrait {
 
     /**
      * 
-     * @return \yii\db\ActiveQuery
+     * @return \jlorente\tagable\db\TagQuery
      */
     public function getTags() {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
-                        ->viaTable(Tag::relationTableName(), [
-                            'model_id' => 'id',
-                            'class_name' => static::className()
-        ]);
+                        ->viaTable(Tag::relationTableName(), ['model_id' => 'id'], function($query) {
+                            $query->andWhere([Tag::relationTableName() . '.class' => get_called_class()]);
+                        });
     }
 
     /**
      * @inheritdoc
      */
     public function link($name, $model, $extraColumns = []) {
-        parent::link($name, $model, array_merge($extraColumns, [
-            'class_name' => static::className()
-        ]));
+        if ($name === 'tags') {
+            $extraColumns['class'] = get_called_class();
+        }
+        return parent::link($name, $model, $extraColumns);
     }
 
 }

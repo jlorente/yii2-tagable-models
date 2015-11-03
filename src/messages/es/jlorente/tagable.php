@@ -23,5 +23,6 @@ return [
     'Update Tag' => 'Modificar Etiqueta',
     'Tag' => 'Etiqueta',
     'Tags' => 'Etiquetas',
-    'Select a tag' => 'Selecciona una etiqueta'
+    'Select a tag' => 'Selecciona una etiqueta',
+    'Filter by tag' => 'Filtra por tag'
 ];

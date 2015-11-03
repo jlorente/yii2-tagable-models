@@ -13,6 +13,9 @@ use yii\base\Widget;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
+use kartik\select2\Select2;
+use jlorente\tagable\db\Tag;
+use jlorente\tagable\models\TagableInterface;
 
 /**
  * 
@@ -22,7 +25,13 @@ class TagFilter extends Widget {
 
     /**
      *
-     * @var ActiveRecord
+     * @var string
+     */
+    public $url;
+
+    /**
+     *
+     * @var TagableInterface
      */
     protected $model;
 
@@ -46,8 +55,8 @@ class TagFilter extends Widget {
                     'data' => ArrayHelper::map(Tag::find()->orderBy('slug ASC')->all(), 'slug', 'name'),
                     'language' => 'es',
                     'options' => [
-                        'placeholder' => Yii::t('blog', 'Filtra por tag...'),
-                        'data-url' => Url::to(['/daybyday/main/list'])
+                        'placeholder' => Yii::t('jlorente/tagable', 'Filter by tag') . '...',
+                        'data-url' => $this->url
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -60,15 +69,15 @@ class TagFilter extends Widget {
 
     /**
      * 
-     * @param ActiveRecord $model
+     * @param TagableInterface $model
      */
-    public function setModel(ActiveRecord $model) {
+    public function setModel(TagableInterface $model) {
         $this->model = $model;
     }
 
     /**
      * 
-     * @return ActiveRecord
+     * @return TagableInterface
      */
     public function getModel() {
         return $this->model;

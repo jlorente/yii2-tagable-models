@@ -14,7 +14,9 @@ use yii\behaviors\SluggableBehavior,
     yii\behaviors\TimestampBehavior,
     yii\behaviors\BlameableBehavior;
 use jlorente\tagable\exceptions\SaveException;
-use yii\db\ActiveRecord;
+use yii\db\ActiveRecord,
+    yii\db\ActiveQuery;
+use Yii;
 
 /**
  * This is the model class for table "jl_tgb_tag".
@@ -114,4 +116,21 @@ class Tag extends ActiveRecord {
         return $tag;
     }
 
+    /**
+     * 
+     * @return TagQuery
+     */
+    public static function find() {
+        return Yii::createObject(TagQuery::className(), [get_called_class()]);
+    }
+
+}
+
+/**
+ * 
+ * 
+ * @author José Lorente <jose.lorente.martin@gmail.com>
+ */
+class TagQuery extends ActiveQuery {
+    
 }
