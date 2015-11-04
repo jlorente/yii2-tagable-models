@@ -7,6 +7,7 @@
  * @version     1.0
  */
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model jlorente\tagable\db\Tag */

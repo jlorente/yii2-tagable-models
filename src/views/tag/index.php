@@ -7,13 +7,11 @@
  * @version     1.0
  */
 use yii\grid\GridView;
-use yii\data\ActiveDataProvider;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
-use jlorente\tagable\db\Tag;
 
 /* @var $this yii\web\View */
-/* @var $model jlorente\tagable\db\Tag */
+/* @var $model jlorente\tagable\models\SearchTag */
 
 $this->title = Yii::t('jlorente/tagable', 'Tags');
 ?>
@@ -28,12 +26,7 @@ $this->title = Yii::t('jlorente/tagable', 'Tags');
     <div class="">
         <?=
         GridView::widget([
-            'dataProvider' => new ActiveDataProvider([
-                'query' => Tag::find()->orderBy('id DESC'),
-                'pagination' => [
-                    'pageSize' => 15,
-                ],
-                    ]),
+            'dataProvider' => $model->search(Yii::$app->request->get()),
             'columns' => [
                 'id',
                 'name',

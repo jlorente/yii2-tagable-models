@@ -37,11 +37,6 @@ $this->title = Yii::t('jlorente/tagable', 'Tag') . ' #' . $model->id;
     <div class="col-sm-xs buttons">
         <?=
         Html::a(
-                Yii::t('jlorente/tagable', 'Return'), ['index'], ['class' => 'btn btn-primary pull-right']
-        )
-        ?>
-        <?=
-        Html::a(
                 Yii::t('jlorente/tagable', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-danger pull-right']
         )
         ?>

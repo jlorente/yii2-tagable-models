@@ -22,8 +22,6 @@ use yii\helpers\ArrayHelper;
  */
 trait TagableFormTrait {
 
-    use TagableTrait;
-
     /**
      *
      * @var int[] 
@@ -33,7 +31,7 @@ trait TagableFormTrait {
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function tFormRules() {
         return array_merge(parent::rules(), [
             ['tagIds', 'safe']
         ]);
@@ -42,7 +40,7 @@ trait TagableFormTrait {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function tFormAttributeLabels() {
         return array_merge(parent::attributeLabels(), [
             'tagIds' => Yii::t('jlorente/tagable', 'Tags')
         ]);
@@ -61,15 +59,17 @@ trait TagableFormTrait {
                 throw new SaveException($this);
             }
             $this->unlinkAll('tags', true);
-            foreach ($this->tagIds as $tagId) {
-                $tag = Tag::getOrCreate($tagId);
-                $this->link('tags', $tag);
+            if (!empty($this->tagIds)) {
+                foreach ($this->tagIds as $tagId) {
+                    $tag = Tag::getOrCreate($tagId);
+                    $this->link('tags', $tag);
+                }
             }
             $trans->commit();
             return true;
         } catch (\Exception $ex) {
             $trans->rollback();
-            return false;
+            throw $ex;
         }
     }
 

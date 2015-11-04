@@ -15,6 +15,7 @@ use Yii;
 use yii\web\BadRequestHttpException,
     yii\web\NotFoundHttpException;
 use jlorente\tagable\db\Tag;
+use jlorente\tagable\models\SearchTag;
 
 /**
  * TagController implements the CRUD actions for Tag model.
@@ -82,7 +83,7 @@ class TagController extends Controller {
     public function actionDelete($id) {
         $model = $this->findModel($id);
         if ($model->delete()) {
-            return $this->redirect(['index']);
+            return $this->goBack();
         } else {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -120,8 +121,9 @@ class TagController extends Controller {
      * 
      * @return \yii\web\Response
      */
-    public function actionIndex() {
-        return $this->render('index');
+    public function actionIndex($type = null) {
+        $model = new SearchTag(['type' => $type]);
+        return $this->render('index', ['model' => $model]);
     }
 
 }

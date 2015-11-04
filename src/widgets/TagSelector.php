@@ -16,6 +16,8 @@ use yii\db\ActiveRecord;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use jlorente\tagable\db\Tag;
+use Yii;
+use jlorente\tagable\models\TagableFormInterface;
 
 /**
  * 
@@ -31,7 +33,7 @@ class TagSelector extends Widget {
 
     /**
      *
-     * @var ActiveRecord
+     * @var TagableFormInterface
      */
     protected $model;
 
@@ -53,7 +55,7 @@ class TagSelector extends Widget {
      */
     public function run() {
         echo $this->form->field($this->model, 'tagIds')->widget(Select2::className(), [
-            'data' => ArrayHelper::map(Tag::find()->all(), 'id', 'name'),
+            'data' => ArrayHelper::map(Tag::find()->filterType($this->model->getTagAssociationType())->all(), 'id', 'name'),
             'options' => ['placeholder' => Yii::t('jlorente/tagable', 'Select a tag')],
             'pluginOptions' => [
                 'multiple' => true,
@@ -81,15 +83,15 @@ class TagSelector extends Widget {
 
     /**
      * 
-     * @param ActiveRecord $model
+     * @param TagableFormInterface $model
      */
-    public function setModel(ActiveRecord $model) {
+    public function setModel(TagableFormInterface $model) {
         $this->model = $model;
     }
 
     /**
      * 
-     * @return ActiveRecord
+     * @return TagableFormInterface
      */
     public function getModel() {
         return $this->model;

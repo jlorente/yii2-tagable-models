@@ -9,6 +9,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 use jlorente\tagable\db\Tag;
+use yii\helpers\Inflector;
 
 /**
  * Tag tables creation.
@@ -20,7 +21,7 @@ use jlorente\tagable\db\Tag;
  * 
  * @author José Lorente <jose.lorente.martin@gmail.com>
  */
-class m20150923_225200_tag_tables extends Migration {
+class m150923_225300_tag_tables extends Migration {
 
     /**
      * @inheritdoc
@@ -38,12 +39,12 @@ class m20150923_225200_tag_tables extends Migration {
         ]);
         $this->createTable(Tag::relationTableName(), [
             'model_id' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'class_name' => Schema::TYPE_STRING . ' NOT NULL',
+            'association_type' => Schema::TYPE_STRING . ' NOT NULL',
             'tag_id' => Schema::TYPE_INTEGER . ' NOT NULL'
         ]);
         $this->createIndex('UNIQUE_Slug', Tag::tableName(), 'slug', true);
         $this->addForeignKey($this->getForeignKeyRelationTag(), Tag::relationTableName(), 'tag_id', Tag::tableName(), 'id', 'CASCADE', 'CASCADE');
-        $this->createIndex('UNIQUE_ModelId_ClassName_TagId', Tag::relationTableName(), ['model_id', 'class_name', 'tag_id'], true);
+        $this->createIndex('UNIQUE_ModelId_AssociationType_TagId', Tag::relationTableName(), ['model_id', 'association_type', 'tag_id'], true);
     }
 
     /**

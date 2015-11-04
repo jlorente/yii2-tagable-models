@@ -21,4 +21,10 @@ interface TagableInterface {
      * @return \jlorente\tagable\db\TagQuery
      */
     public function getTags();
+    
+    /**
+     * 
+     * @return string
+     */
+    public static function getTagAssociationType();
 }

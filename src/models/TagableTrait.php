@@ -27,18 +27,35 @@ trait TagableTrait {
     public function getTags() {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
                         ->viaTable(Tag::relationTableName(), ['model_id' => 'id'], function($query) {
-                            $query->andWhere([Tag::relationTableName() . '.class' => get_called_class()]);
+                            $query->andWhere([Tag::relationTableName() . '.association_type' => $this->getTagAssociationType()]);
                         });
     }
 
+    /**
+     * 
+     * @return \jlorente\tagable\db\TagQuery
+     */
+    public function getTag() {
+        return $this->getTags()->limit(1);
+    }
+    
     /**
      * @inheritdoc
      */
     public function link($name, $model, $extraColumns = []) {
         if ($name === 'tags') {
-            $extraColumns['class'] = get_called_class();
+            $extraColumns['association_type'] = $this->getTagAssociationType();
         }
         return parent::link($name, $model, $extraColumns);
     }
 
+    /**
+     * Returns the type of the association. By default, the name of the class 
+     * that uses the trait is used.
+     * 
+     * @return string
+     */
+    public static function getTagAssociationType() {
+        return get_class();
+    }
 }

@@ -17,6 +17,7 @@ use jlorente\tagable\exceptions\SaveException;
 use yii\db\ActiveRecord,
     yii\db\ActiveQuery;
 use Yii;
+use jlorente\tagable\models\TagableInterface;
 
 /**
  * This is the model class for table "jl_tgb_tag".
@@ -56,7 +57,6 @@ class Tag extends ActiveRecord {
     public function rules() {
         return [
             [['name', 'slug', 'color'], 'required'],
-            [['created_at', 'updated_at'], 'integer'],
             [['name', 'slug', 'color'], 'string', 'max' => 255],
             [['slug'], 'unique'],
             ['color', ColorValidator::className()],
@@ -118,6 +118,14 @@ class Tag extends ActiveRecord {
 
     /**
      * 
+     * @return string
+     */
+    public function getOppositeColor() {
+        return '#' . dechex(0xffffff - hexdec(substr($this->color, 1)));
+    }
+
+    /**
+     * 
      * @return TagQuery
      */
     public static function find() {
@@ -132,5 +140,17 @@ class Tag extends ActiveRecord {
  * @author José Lorente <jose.lorente.martin@gmail.com>
  */
 class TagQuery extends ActiveQuery {
-    
+
+    /**
+     * Filters the tags by the association type.
+     * 
+     * @param $type string
+     * @return $this
+     */
+    public function filterType($type) {
+        return $this->innerJoin(Tag::relationTableName(), Tag::relationTableName() . '.`tag_id` = ' . Tag::tableName() . '.`id`')
+                        ->andWhere([Tag::relationTableName() . '.`association_type`' => $type])
+                        ->groupBy([Tag::tableName() . '.`id`']);
+    }
+
 }

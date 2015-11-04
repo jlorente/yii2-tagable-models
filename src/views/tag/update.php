@@ -14,7 +14,6 @@ use yii\helpers\Html;
 $this->title = Yii::t('jlorente/tagable', 'Update Tag') . ' #' . $model->id;
 ?>
 <div class="backend-container tag-model tag-update">
-    <h1><?= Html::encode($this->title) ?></h1>
     <?=
     $this->render('_form', [
         'model' => $model,
