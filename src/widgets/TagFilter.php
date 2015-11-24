@@ -11,11 +11,13 @@ namespace jlorente\tagable\widgets;
 
 use yii\base\Widget;
 use yii\base\InvalidConfigException;
-use yii\db\ActiveRecord;
-use yii\helpers\Html;
+use yii\helpers\Html,
+    yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use jlorente\tagable\db\Tag;
 use jlorente\tagable\models\TagableInterface;
+use Yii;
+use jlorente\tagable\assets\TagFilterAsset;
 
 /**
  * 
@@ -43,6 +45,8 @@ class TagFilter extends Widget {
         if ($this->model === null) {
             throw new InvalidConfigException('model property must be provided on class instantiation');
         }
+        
+        TagFilterAsset::register($this->getView());
     }
 
     /**
@@ -52,7 +56,7 @@ class TagFilter extends Widget {
         echo Html::tag('div', Select2::widget([
                     'model' => $this->model,
                     'attribute' => 'tags',
-                    'data' => ArrayHelper::map(Tag::find()->orderBy('slug ASC')->all(), 'slug', 'name'),
+                    'data' => ArrayHelper::map(Tag::find()->filterType($this->model->getTagAssociationType())->orderBy('slug ASC')->all(), 'slug', 'name'),
                     'language' => 'es',
                     'options' => [
                         'placeholder' => Yii::t('jlorente/tagable', 'Filter by tag') . '...',
